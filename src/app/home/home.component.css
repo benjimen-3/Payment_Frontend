@@ -1,0 +1,18 @@
+.next-button{
+    margin-left:0;
+    margin-right:auto;
+}
+
+.money-field{
+    text-align: right;
+    color:black;
+}
+
+.black-text-field{
+    color:black;
+}
+
+.currency-symbol{
+    font-size: 1.7rem;
+    margin-right:10px;
+}

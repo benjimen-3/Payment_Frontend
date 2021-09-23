@@ -1,0 +1,120 @@
+<div class="container">
+  <mat-stepper #stepper labelPosition="bottom">
+
+    <mat-step [stepControl]="senderForm" label="Sender details">
+      <div class="container mt-5">
+        <form [formGroup]="senderForm" autocomplete="off">
+          <div class="row">
+            <mat-form-field appearance="fill" class="col-6 m-auto">
+              <mat-label>Account Number</mat-label>
+              <input matInput placeholder="14 digit account number" formControlName="accountNumber" required>
+              <mat-error
+                *ngIf="this.accountNumberField?.hasError('required') || accountNumberField?.hasError('minlength') || accountNumberField?.hasError('maxlength')">
+                Fill the account number field with 14 digits</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Account holder name</mat-label>
+              <input matInput class="black-text-field" formControlName="accountHolderName">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Clear balance</mat-label>
+              <input [value]="this.senderForm.get('clearBalance')?.value | currency:' ':'symbol-narrow':'1.2-2'"
+                matInput formControlName="clearBalance" class="money-field" />
+              <span matPrefix class="currency-symbol">₹</span>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <button class="col-sm-8 col-md-3 m-auto" color="primary" mat-raised-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="receiverForm" label="Receiver details">
+      <div class="container mt-5">
+        <form [formGroup]="receiverForm" autocomplete="off">
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>BIC</mat-label>
+              <input matInput formControlName="bic" placeholder="eg: BOTKIN5MXXX" required>
+              <mat-error *ngIf="this.bicField.hasError('required')">BIC field is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Bank name</mat-label>
+              <input matInput class="black-text-field" formControlName="bankName">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Account holder name</mat-label>
+              <input type="text" matInput formControlName="accountHolderName" required>
+              <mat-error *ngIf="this.receiverForm.get('accountHolderName')?.hasError('required')">
+                Account holder name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Account holder number</mat-label>
+              <input type="text" matInput formControlName="accountHolderNumber" required>
+              <mat-error *ngIf="this.receiverForm.get('accountHolderNumber')?.hasError('required')">
+                Account holder number is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col-6 m-auto">
+              <div class="row justify-content-around">
+                <button class="col-5" mat-raised-button color="primary" matStepperPrevious>Back</button>
+                <button class="col-5" mat-raised-button color="primary" matStepperNext>Next</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="transactionForm" label="Transaction">
+      <div class="container mt-5">
+        <form [formGroup]="transactionForm" autocomplete="off" (ngSubmit)="onTransactionSubmit()">
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-6 m-auto">
+              <mat-label>Transfer type</mat-label>
+              <mat-select formControlName="transferType">
+                <mat-option value="customer">CUSTOMER</mat-option>
+                <mat-option value="bankTransfer">BANK</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-6 m-auto">
+              <mat-label>Message code</mat-label>
+              <mat-select formControlName="messageCode">
+                <mat-option *ngFor="let msgCode of messageCodes" [value]="msgCode.messagecode">{{msgCode.messagecode}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field class="col-6 m-auto" appearance="outline">
+              <mat-label>Amount</mat-label>
+              <input matInput formControlName="amount" class="money-field" />
+              <span matPrefix class="currency-symbol">₹</span>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <button type="submit" class="col-sm-8 col-md-3 m-auto" color="primary" mat-raised-button>Initiate
+              transaction</button>
+          </div>
+        </form>
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>
